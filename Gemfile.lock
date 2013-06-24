@@ -3,7 +3,9 @@ PATH
   specs:
     ruby-resty (0.1.0)
       ppjson
+      pry
       rest-client (= 1.6.7)
+      trollop
 
 GEM
   remote: https://rubygems.org/
@@ -63,6 +65,7 @@ GEM
     rspec-mocks (2.13.1)
     slop (3.4.5)
     thor (0.18.1)
+    trollop (2.0)
     yajl-ruby (1.1.0)
 
 PLATFORMS

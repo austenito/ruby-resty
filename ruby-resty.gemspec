@@ -17,6 +17,8 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'rest-client', '1.6.7'
   gem.add_dependency 'ppjson'
+  gem.add_dependency 'trollop'
+  gem.add_dependency 'pry'
 
   gem.add_development_dependency 'guard-rspec'
   gem.add_development_dependency 'rspec'
