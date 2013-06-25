@@ -13,6 +13,7 @@ module Resty
       @printer = Ppjson::StreamJsonWriter.new
 
       Pry.config.prompt = [ proc { "resty> " }, proc { "*>" }]
+      Pry.config.history.file = "~/.ruby_resty_history"
     end
 
     def self.start(cli_options)
@@ -32,6 +33,8 @@ module Resty
           request.send_request(options) do |response, request, result|
             display(response, request, result)
           end
+
+          Pry.history.push(input)
         else
           puts "Invalid parameters"
         end
