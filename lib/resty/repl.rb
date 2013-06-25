@@ -5,7 +5,7 @@ module Resty
   class Repl
     include Readline
 
-    attr_accessor :cli_options, :request, :printer
+    attr_accessor :cli_options, :request, :printer, :interrupted
 
     def initialize(cli_options)
       @cli_options = Resty::CliOptions.new(cli_options)
@@ -19,25 +19,31 @@ module Resty
       new(cli_options).tap do |repl|
         Pry.config.input = repl
 
-        while true
-          "".pry
+        until repl.interrupted 
+         "".pry 
         end
       end
     end
 
     def readline(current_prompt)
+      RestClient.log = "stdout"
+
       Readline.readline(current_prompt).tap do |input|
         options = Resty::RequestOptions.new(input)
         if options.valid?
-          ppj(request.send_request(options))
+          response = request.send_request(options)
+          ppj(response)
         else
           puts "Invalid parameters"
         end
       end
       nil
+    rescue Interrupt
+      self.interrupted = true
+      nil
     end
 
-private
+    private
 
     def ppj(json)
       printer.write(json, pretty: true)
