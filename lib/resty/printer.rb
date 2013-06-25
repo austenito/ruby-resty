@@ -38,6 +38,7 @@ private
     end
 
     def pretty_print_json(json)
+      return if json == ""
       parsed_json = JSON.parse(json)
       json_printer.write(json, pretty: true)
     rescue
