@@ -9,8 +9,8 @@ module Resty
 
     def initialize(cli_options)
       @cli_options = Resty::CliOptions.new(cli_options)
-      @request = Resty::Request.new(@cli_options.host, @cli_options.headers)
-      @printer = Resty::Printer.new(cli_options)
+      @request = Resty::Request.new(cli_options.host, cli_options.headers)
+      @printer = Resty::Printer.new(cli_options.verbose?)
 
       Pry.config.prompt = [ proc { "resty> " }, proc { "*>" }]
       Pry.config.history.file = "~/.ruby_resty_history"

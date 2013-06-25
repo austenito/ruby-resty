@@ -9,16 +9,12 @@ module Resty
 
     def print_result(response, request)
       if verbose
-        puts "> #{request.method.upcase} #{request.url}"
-        request.processed_headers.each do |key, value|
-          puts "> #{key}: #{value}"
-        end
+        print_line("#{request.method.upcase} #{request.url}")
+        request.processed_headers.each { |key, value| print_line("#{key}: #{value}") }
         puts ""
 
-        puts "> #{response.code}"
-        response.headers.each do |key, value|
-          puts "> #{key}: #{value}"
-        end
+        print_line("Response Code: #{response.code}")
+        response.headers.each { |key, value| print_line("#{key}: #{value}") }
       end
 
       pretty_print_json(response)
@@ -36,6 +32,10 @@ module Resty
     end
 
 private
+
+    def print_line(line)
+      puts "> #{line}"
+    end
 
     def pretty_print_json(json)
       json_printer.write(json, pretty: true)
