@@ -72,9 +72,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bourne
+  bourne (= 1.4.0)
+  guard
   guard-rspec
-  mocha
+  mocha (~> 0.13)
   pry
   rake
   rspec

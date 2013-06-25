@@ -24,6 +24,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'mocha'
-  gem.add_development_dependency 'bourne'
+  gem.add_development_dependency 'mocha', "~> 0.13"
+  gem.add_development_dependency 'bourne', "1.4.0"
+  gem.add_development_dependency 'guard'
 end

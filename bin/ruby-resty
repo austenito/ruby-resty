@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/resty'
+
+Resty::Cli.new.run
+
+

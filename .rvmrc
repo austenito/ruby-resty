@@ -1,1 +1,1 @@
-rvm use 1.9.3@resty
+rvm use 1.9.3@resty --create
