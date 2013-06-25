@@ -1,7 +1,5 @@
 module Resty
   class RequestOptions
-    GET = "get"
-
     attr_reader :options
 
     def initialize(options)
