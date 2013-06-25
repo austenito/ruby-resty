@@ -18,21 +18,19 @@ module Resty
     def self.start(cli_options)
       new(cli_options).tap do |repl|
         Pry.config.input = repl
-        "".pry
-        puts "Goodbye"
+
+        while true
+          "".pry
+        end
       end
     end
 
     def readline(current_prompt)
-      print current_prompt
-
-      while input = Readline.readline
-        options = Resty::RequestOptions.new(input) 
+      Readline.readline(current_prompt).tap do |input|
+        options = Resty::RequestOptions.new(input)
         ppj(request.send_request(options))
-        print current_prompt
       end
-    rescue Interrupt
-      exit
+      nil
     end
 
 private
