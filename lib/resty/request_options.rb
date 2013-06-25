@@ -24,7 +24,7 @@ module Resty
     end
 
     def method_valid?
-      (method =~ %r{get|put|post|delete}) == 0
+      (method =~ %r{get|put|post|delete|head|option|patch}) == 0
     end
 
     def path_valid?

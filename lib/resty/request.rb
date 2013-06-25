@@ -10,7 +10,7 @@ module Resty
 
     def send_request(options)
       case options.method
-      when "get"
+      when %r{get|head|delete|options}
         RestClient.send(options.method, url(options), headers) { |*params| yield params }
       else
         RestClient.send(options.method, url(options), options.data, headers) { |*params| yield params }

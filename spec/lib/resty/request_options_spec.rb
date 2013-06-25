@@ -30,43 +30,64 @@ describe Resty::RequestOptions do
     end
   end
 
-  context "validate" do
-    context "valid options" do
-      it "returns true" do
-        expect(Resty::RequestOptions.new("get /api/cats #{data}").valid?).to be_true
-      end
-
-      context "no data" do
-        let(:options) { Resty::RequestOptions.new("get /api/cats") }
-
-        it "returns false" do
-          expect(options.valid?).to be_true
-        end
+  context "#method_valid?" do
+    it "returns true with valid methods" do
+      %w{get put post delete head option patch}.each do |method|
+        options = Resty::RequestOptions.new("#{method} /api/cats")
+        expect(options.method_valid?).to be_true
       end
     end
 
-    context "invalid method" do
-      let(:options) { Resty::RequestOptions.new("foo /api/cats #{data}") }
+    it "returns false" do
+      options = Resty::RequestOptions.new("foo /api/cats")
+      expect(options.method_valid?).to be_false
+    end
+  end
 
-      it "returns false" do
-        expect(options.valid?).to be_false
-      end
+  context "#path_valid?" do
+    it "returns true" do
+      options = Resty::RequestOptions.new("get /api/cats")
+      expect(options.path_valid?).to be_true
     end
 
-    context "invalid path" do
-      let(:options) { Resty::RequestOptions.new("get ") }
+    it "returns false" do
+      options = Resty::RequestOptions.new("get")
+      expect(options.path_valid?).to be_false
+    end
+  end
 
-      it "returns false" do
-        expect(options.valid?).to be_false
-      end
+  context "#data_valid?" do
+    it "returns true with data" do
+      options = Resty::RequestOptions.new("get /api/cats #{data}")
+      expect(options.data_valid?).to be_true
     end
 
-    context "invalid data" do
-      let(:options) { Resty::RequestOptions.new("get /api/cats data") }
+    it "returns true with blank data" do
+      options = Resty::RequestOptions.new("get /api/cats ")
+      expect(options.data_valid?).to be_true
+    end
 
-      it "returns false" do
-        expect(options.valid?).to be_false
-      end
+    it "returns false" do
+      options = Resty::RequestOptions.new("get /api/cats data")
+      expect(options.data_valid?).to be_false
+    end
+  end
+
+  context "#valid?" do
+    it "returns true" do
+      expect(Resty::RequestOptions.new("get /api/cats #{data}").valid?).to be_true
+    end
+
+    it "returns false with invalid method" do
+      expect(Resty::RequestOptions.new("foo /api/cats #{data}").valid?).to be_false
+    end
+
+    it "returns false with invalid path" do
+      expect(Resty::RequestOptions.new("foo").valid?).to be_false
+    end
+
+    it "returns false with invalid method" do
+      expect(Resty::RequestOptions.new("foo /api/cats data").valid?).to be_false
     end
   end
 end
