@@ -10,7 +10,7 @@ module Resty
     def initialize(cli_options)
       @cli_options = Resty::CliOptions.new(cli_options)
       @request = Resty::Request.new(@cli_options.host, @cli_options.headers)
-      @printer = Ppjson::StreamJsonWriter.new
+      @printer = Resty::Printer.new(cli_options)
 
       Pry.config.prompt = [ proc { "resty> " }, proc { "*>" }]
       Pry.config.history.file = "~/.ruby_resty_history"
@@ -29,17 +29,7 @@ module Resty
     def readline(current_prompt)
       Readline.readline(current_prompt).tap do |input|
         command = Resty::Command.new(input)
-        if command.command?
-          command.execute
-        else
-          options = Resty::RequestOptions.new(input)
-          if options.valid?
-            request.send_request(options) { |response, request, result| display(response, request) }
-            Pry.history.push(input)
-          else
-            puts "Invalid parameters"
-          end
-        end
+        command.command? ? command.execute : execute_request(input)
       end
       nil
     rescue Interrupt
@@ -47,28 +37,19 @@ module Resty
       nil
     end
 
-    private
+private
 
-    def display(response, request)
-      if cli_options.verbose?
-        puts "> #{request.method.upcase} #{request.url}"
-        request.processed_headers.each do |key, value|
-          puts "> #{key}: #{value}"
-        end
-        puts ""
-
-        puts "> #{response.code}"
-        response.headers.each do |key, value|
-          puts "> #{key}: #{value}"
+    def execute_request(input)
+      Resty::RequestOptions.new(input).tap do |options|
+        if options.valid?
+          request.send_request(options) do |response, request, result|
+            printer.print_result(response, request)
+          end
+          Pry.history.push(input)
+        else
+          printer.print_invalid_options(options)
         end
       end
-
-      puts ""
-      ppj(response)
-    end
-
-    def ppj(json)
-      printer.write(json, pretty: true)
     end
   end
 end

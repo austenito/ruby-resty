@@ -1,10 +1,11 @@
 module Resty
   class RequestOptions
 
-    attr_reader :options
+    attr_reader :raw_options, :options
 
-    def initialize(options)
-      @options = parse_input(options)
+    def initialize(raw_options)
+      @raw_options = raw_options
+      @options = parse_input(raw_options)
     end
 
     def method
