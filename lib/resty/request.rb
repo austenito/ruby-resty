@@ -9,7 +9,12 @@ module Resty
     end
 
     def send_request(options)
-      RestClient.send(options.method, url(options), merge_params(options))
+      case options.method
+      when "get"
+        RestClient.send(options.method, url(options), headers)
+      else
+        RestClient.send(options.method, url(options), options.data, headers)
+      end
     end
 
     private
