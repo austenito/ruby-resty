@@ -37,15 +37,15 @@ module Resty
       nil
     end
 
-private
+    private
 
     def execute_request(input)
       Resty::RequestOptions.new(input).tap do |options|
         if options.valid?
+          Pry.history.push(input)
           request.send_request(options) do |response, request, result|
             printer.print_result(response, request)
           end
-          Pry.history.push(input)
         else
           printer.print_invalid_options(options)
         end

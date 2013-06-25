@@ -38,7 +38,10 @@ private
     end
 
     def pretty_print_json(json)
+      parsed_json = JSON.parse(json)
       json_printer.write(json, pretty: true)
+    rescue
+      puts json
     end
   end
 end
