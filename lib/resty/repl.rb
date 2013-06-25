@@ -28,7 +28,11 @@ module Resty
     def readline(current_prompt)
       Readline.readline(current_prompt).tap do |input|
         options = Resty::RequestOptions.new(input)
-        ppj(request.send_request(options))
+        if options.valid?
+          ppj(request.send_request(options))
+        else
+          puts "Invalid parameters"
+        end
       end
       nil
     end
