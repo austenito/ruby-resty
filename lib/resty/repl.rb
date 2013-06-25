@@ -7,8 +7,8 @@ module Resty
 
     attr_accessor :cli_options, :request, :printer, :interrupted
 
-    def initialize(cli_options)
-      @cli_options = Resty::CliOptions.new(cli_options)
+    def initialize(resty_options)
+      @cli_options = Resty::CliOptions.new(resty_options)
       @request = Resty::Request.new(cli_options.host, cli_options.headers)
       @printer = Resty::Printer.new(cli_options.verbose?)
 
@@ -16,8 +16,8 @@ module Resty
       Pry.config.history.file = "~/.ruby_resty_history"
     end
 
-    def self.start(cli_options)
-      new(cli_options).tap do |repl|
+    def self.start(resty_options)
+      new(resty_options).tap do |repl|
         Pry.config.input = repl
 
         until repl.interrupted
