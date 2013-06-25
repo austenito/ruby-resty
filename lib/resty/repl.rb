@@ -21,22 +21,24 @@ module Resty
         Pry.config.input = repl
 
         until repl.interrupted
-         "".pry
+          "".pry
         end
       end
     end
 
     def readline(current_prompt)
       Readline.readline(current_prompt).tap do |input|
-        options = Resty::RequestOptions.new(input)
-        if options.valid?
-          request.send_request(options) do |response, request, result|
-            display(response, request, result)
-          end
-
-          Pry.history.push(input)
+        command = Resty::Command.new(input)
+        if command.command?
+          command.execute
         else
-          puts "Invalid parameters"
+          options = Resty::RequestOptions.new(input)
+          if options.valid?
+            request.send_request(options) { |response, request, result| display(response, request) }
+            Pry.history.push(input)
+          else
+            puts "Invalid parameters"
+          end
         end
       end
       nil
@@ -47,7 +49,7 @@ module Resty
 
     private
 
-    def display(response, request, result)
+    def display(response, request)
       if cli_options.verbose?
         puts "> #{request.method.upcase} #{request.url}"
         request.processed_headers.each do |key, value|
