@@ -11,9 +11,9 @@ module Resty
     def send_request(options)
       case options.method
       when "get"
-        RestClient.send(options.method, url(options), headers)
+        RestClient.send(options.method, url(options), headers) { |*params| yield params }
       else
-        RestClient.send(options.method, url(options), options.data, headers)
+        RestClient.send(options.method, url(options), options.data, headers) { |*params| yield params }
       end
     end
 

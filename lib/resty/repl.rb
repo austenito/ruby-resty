@@ -19,20 +19,19 @@ module Resty
       new(cli_options).tap do |repl|
         Pry.config.input = repl
 
-        until repl.interrupted 
-         "".pry 
+        until repl.interrupted
+         "".pry
         end
       end
     end
 
     def readline(current_prompt)
-      RestClient.log = "stdout"
-
       Readline.readline(current_prompt).tap do |input|
         options = Resty::RequestOptions.new(input)
         if options.valid?
-          response = request.send_request(options)
-          ppj(response)
+          request.send_request(options) do |response, request, result|
+            display(response, request, result)
+          end
         else
           puts "Invalid parameters"
         end
@@ -44,6 +43,24 @@ module Resty
     end
 
     private
+
+    def display(response, request, result)
+      if cli_options.verbose?
+        puts "> #{request.method.upcase} #{request.url}"
+        request.processed_headers.each do |key, value|
+          puts "> #{key}: #{value}"
+        end
+        puts ""
+
+        puts "> #{response.code}"
+        response.headers.each do |key, value|
+          puts "> #{key}: #{value}"
+        end
+      end
+
+      puts ""
+      ppj(response)
+    end
 
     def ppj(json)
       printer.write(json, pretty: true)

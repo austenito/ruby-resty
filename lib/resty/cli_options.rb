@@ -10,6 +10,10 @@ module Resty
       options[:host]
     end
 
+    def verbose?
+      options[:verbose] ? true : false
+    end
+
     def headers
       @headers ||=
         if options[:headers]
