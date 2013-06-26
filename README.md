@@ -17,14 +17,20 @@ ruby-resty --host http://nyan.cat
 resty>
 ```
 
+If you would like headers to be attached with every request, you can do so:
+
+```
+ruby-resty --host http://nyan.cat --headers X-NYAN-CAT-SECRET-KEY=nyan_nyan X-NYAN-TYPE=octo
+```
+
 ### REPL Options
 
 The REPL accepts the following options that are attached to each request. This provides an easier way to make multiple
 requests without having to specify headers everytime.
 
 ```
---host:        The hostname of the REST service. Ex: http://nyan.cat
---headers, -h: The headers attached to each request. Ex: X-NYAN-CAT-SECRET-KEY=nyan_nyan
+--host, -h:    The hostname of the REST service. Ex: http://nyan.cat
+--headers, -H: The headers attached to each request. Ex: X-NYAN-CAT-SECRET-KEY=nyan_nyan
 --verbose, -v: Verbose mode
 ```
 
