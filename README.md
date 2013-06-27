@@ -32,6 +32,7 @@ requests without having to specify headers everytime.
 --host, -h:    The hostname of the REST service. Ex: http://nyan.cat
 --headers, -H: The headers attached to each request. Ex: X-NYAN-CAT-SECRET-KEY=nyan_nyan
 --verbose, -v: Verbose mode
+--config, -c : Use host information from ~/.ruby_resty.yml
 ```
 
 ### Making Requests
