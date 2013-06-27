@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/austenito/ruby-resty.png)](https://travis-ci.org/austenito/ruby-resty)
+
 # Ruby-Resty
 
 Ruby-Resty is a ruby port of [Resty][1], which provides a simple way to interact with RESTful services. Ruby-Resty was
@@ -5,6 +7,17 @@ ported to be shell agnostic and for easier community development.
 
 The resty REPL is built on top of [Pry][2] for built-in niceties like history, state management, shell interaction, 
 etc.
+
+# Installation
+
+```
+gem install ruby-resty
+```
+
+# Supported Ruby Versions
+
+* Ruby 1.9.3
+* Ruby 2.0.0
 
 # Usage
 
