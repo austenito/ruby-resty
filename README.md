@@ -59,7 +59,6 @@ resty> GET /api/cats/1
     "color": "green"
   }
 }
-
 ```
 
 Or you can send a `POST` request, which does require a body:
@@ -72,9 +71,7 @@ resty> POST /api/cats {"nyan_cat": {"name": "oliver", "color": "blue"} }
     "color": "blue"
   }
 }
-
 ```
-
 
 ### REPL Commands
 
@@ -82,6 +79,38 @@ There are also REPL specific commands ruby-resty is aware of. For example, you c
 
 ```
 exit: Quits the REPL
+```
+
+## Per Host Configuration
+
+Including options from the command-line can get tedious, especially if you specify different options to different
+services. The `~/.ruby_resty.yml` config file allows per-host configuration.
+
+To get started, you can call a generator:
+
+```
+rake copy_config
+```
+
+This will copy `~/.ruby_resty.yml` which allows you to specify options related to specific hosts.
+
+```
+http://nyan.cat:
+  headers:
+    header_name: header_value
+    header_name2: header_value2
+```
+
+Now instead of starting the REPL like:
+
+```
+ruby-resty --host http://nyan.cat --headers header_name=header_value header_name2=header_value2
+```
+
+You can omit the header information:
+
+```
+ruby-resty --host http://nyan.cat --config
 ```
 
 # Contributing
