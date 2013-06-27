@@ -15,16 +15,17 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
   gem.executables   << 'ruby-resty'
 
-  gem.add_dependency 'rest-client', '1.6.7'
+  gem.add_dependency 'active_support'
   gem.add_dependency 'ppjson'
-  gem.add_dependency 'trollop'
   gem.add_dependency 'pry'
+  gem.add_dependency 'rest-client', '1.6.7'
+  gem.add_dependency 'trollop'
 
-  gem.add_development_dependency 'guard-rspec'
-  gem.add_development_dependency 'rspec'
-  gem.add_development_dependency 'pry'
-  gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'mocha', "~> 0.13"
   gem.add_development_dependency 'bourne', "1.4.0"
   gem.add_development_dependency 'guard'
+  gem.add_development_dependency 'guard-rspec'
+  gem.add_development_dependency 'mocha', "~> 0.13"
+  gem.add_development_dependency 'pry'
+  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'rake'
 end

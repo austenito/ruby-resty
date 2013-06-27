@@ -5,12 +5,10 @@ module Resty
   class Repl
     include Readline
 
-    attr_accessor :cli_options, :request, :printer, :interrupted
+    attr_accessor :cli_options, :interrupted
 
     def initialize(resty_options)
       @cli_options = Resty::CliOptions.new(resty_options)
-      @request = Resty::Request.new(cli_options.host, cli_options.headers)
-      @printer = Resty::Printer.new(cli_options.verbose?)
 
       Pry.config.prompt = [ proc { "resty> " }, proc { "*>" }]
       Pry.config.history.file = "~/.ruby_resty_history"
@@ -28,28 +26,17 @@ module Resty
 
     def readline(current_prompt)
       Readline.readline(current_prompt).tap do |input|
-        command = Resty::Command.new(input)
-        command.command? ? command.execute : execute_request(input)
+        delegator = Resty::Commands::Delegator.new(cli_options, input)
+        if delegator.find_command
+          delegator.execute
+        else
+          puts "Invalid Command"
+        end
       end
       nil
     rescue Interrupt
       self.interrupted = true
       nil
-    end
-
-    private
-
-    def execute_request(input)
-      Resty::RequestOptions.new(input).tap do |options|
-        if options.valid?
-          Pry.history.push(input)
-          request.send_request(options) do |response, request, result|
-            printer.print_result(response, request)
-          end
-        else
-          printer.print_invalid_options(options)
-        end
-      end
     end
   end
 end
