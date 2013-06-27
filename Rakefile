@@ -9,3 +9,15 @@ task :spec do
     t.pattern = './spec/**/*_spec.rb'
   end
 end
+
+desc "Copies an template ruby_resty.yml file to ~/.ruby_resty.yml"
+task :copy_config do
+  config_file = "#{Dir.home}/.ruby_resty.yml"
+  if File.exist?(config_file)
+    puts "#{config_file} exists. Skipping"
+  else
+    source = "#{Dir.getwd}/templates/ruby_resty.yml"
+    FileUtils.copy(source, config_file)
+    puts "Copied config file to #{config_file}"
+  end
+end

@@ -1,0 +1,4 @@
+http://foo.com:
+  headers:
+    header_name: header_value
+    header_name2: header_value2
