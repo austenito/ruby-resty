@@ -32,6 +32,8 @@ module Resty
         else
           RestClient.send(options.method, url, options.data, cli_options.headers) { |*params| yield params }
         end
+      rescue => e
+        puts e
       end
 
       def url
