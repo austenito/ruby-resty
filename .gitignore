@@ -19,3 +19,4 @@ tmp
 pkg
 tags
 .rbenv-version
+Gemfile.lock
