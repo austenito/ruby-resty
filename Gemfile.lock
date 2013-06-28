@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ruby-resty (0.0.1)
+    ruby-resty (0.0.2)
       active_support
       ppjson
       pry

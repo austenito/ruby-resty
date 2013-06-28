@@ -17,26 +17,12 @@ module Resty
     def self.start(resty_options)
       new(resty_options).tap do |repl|
         Pry.config.input = repl
-
-        until repl.interrupted
-          "".pry
-        end
+        repl.cli_options.pry
       end
     end
 
     def readline(current_prompt)
-      Readline.readline(current_prompt).tap do |input|
-        delegator = Resty::Commands::Delegator.new(cli_options, input)
-        if delegator.find_command
-          delegator.execute
-        else
-          puts "Invalid Command"
-        end
-      end
-      nil
-    rescue Interrupt
-      self.interrupted = true
-      nil
+      Readline.readline(current_prompt)
     end
   end
 end
