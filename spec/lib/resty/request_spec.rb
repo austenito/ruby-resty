@@ -60,7 +60,7 @@ describe Resty::Request do
     end
 
     context "PUT" do
-      let(:params) { { method: "put", path: "/api/merchants", data: "{foo: 'bar'}" } }
+      let(:params) { { method: "put", path: "/api/merchants", data: JSON.dump(foo: "bar") } }
 
       before(:each) do
         Resty::Request.new(cli_options, params).send_request
@@ -68,12 +68,12 @@ describe Resty::Request do
 
       it "sends request" do
         RestClient.should have_received(:send).with("put", "foo.com/api/merchants",
-                                                    {foo: "bar"}, {header: "value"})
+                                                    {"foo" => "bar"}, {header: "value"})
       end
     end
 
     context "POST" do
-      let(:params) { { method: "post", path: "/api/merchants", data: "{foo: 'bar'}" } }
+      let(:params) { { method: "post", path: "/api/merchants", data: JSON.dump(foo: "bar") } }
 
       before(:each) do
         Resty::Request.new(cli_options, params).send_request
@@ -81,7 +81,7 @@ describe Resty::Request do
 
       it "sends request" do
         RestClient.should have_received(:send).with("post", "foo.com/api/merchants",
-                                                    {foo: "bar"}, {header: "value"})
+                                                    {"foo" => "bar"}, {header: "value"})
       end
     end
   end

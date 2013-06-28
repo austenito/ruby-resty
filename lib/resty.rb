@@ -1,7 +1,6 @@
 require 'rest_client'
-require 'escort'
-require 'ppjson'
 require 'active_support'
+require 'multi_json'
 
 module Resty
 end
@@ -11,3 +10,4 @@ require_relative "resty/cli_options"
 require_relative "resty/repl"
 require_relative "resty/request"
 require_relative "resty/commands/method_command"
+require_relative "resty/commands/method_output"

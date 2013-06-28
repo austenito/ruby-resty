@@ -1,3 +1,5 @@
+require 'json'
+
 module Resty
   class Request
 
@@ -22,7 +24,7 @@ module Resty
     end
 
     def data_valid?
-      eval(params[:data])
+      JSON.parse(params[:data])
       true
     rescue => e
       false
@@ -43,7 +45,7 @@ module Resty
     end
 
     def data
-      eval(params[:data]) || {} rescue {}
+      JSON.parse(params[:data]) || {} rescue {}
     end
   end
 end
