@@ -78,7 +78,7 @@ resty> GET /api/cats/1
 Or you can send a `POST` request, which does require a body:
 
 ```
-resty> POST /api/cats {"nyan_cat": {"name": "oliver", "color": "blue"} }
+resty> POST /api/cats '{"nyan_cat": {"name": "oliver", "color": "blue"} }'
 { 
   "nyan_cat": { 
     "name": "oliver"
