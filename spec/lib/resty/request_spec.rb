@@ -1,36 +1,7 @@
 require 'spec_helper'
 
-describe Resty::Commands::Request do
+describe Resty::Request do
   let(:cli_options) { stub(host: "foo.com", verbose?: false, headers: { header: "value" }) }
-  #let(:request) { Resty::Commands::Request.new(cli_options, "") }
-
-  #context "#valid?" do
-    #it "returns true" do
-      #request = Resty::Commands::Request.new(cli_options, "get")
-      #expect(request.match?).to be_true
-    #end
-
-    #it "returns false" do
-      #request = Resty::Commands::Request.new(cli_options, "")
-      #expect(request.match?).to be_false
-    #end
-  #end
-
-  #context "#execute" do
-    #before(:each) do
-      #RestClient.stubs(:send).yields(response, request, result)
-      #printer.stubs(:print_result)
-      #printer.stubs(:print_invalid_options)
-      #request.stubs(:printer).returns(printer)
-    #end
-
-    #context "invalid request" do
-      #it "prints error" do
-        #request.execute
-        #printer.should have_received(:print_invalid_options).with(request.options)
-      #end
-    #end
-
     context "#send_request" do
       before(:each) do
         RestClient.stubs(:send)
@@ -40,7 +11,7 @@ describe Resty::Commands::Request do
       let(:params) { { method: "get", path: "/api/merchants" } }
 
       before(:each) do
-        Resty::Commands::Request.new(cli_options, params).send_request
+        Resty::Request.new(cli_options, params).send_request
       end
 
       it "sends request" do
@@ -53,7 +24,7 @@ describe Resty::Commands::Request do
       let(:params) { { method: "delete", path: "/api/merchants" } }
 
       before(:each) do
-        Resty::Commands::Request.new(cli_options, params).send_request
+        Resty::Request.new(cli_options, params).send_request
       end
 
       it "sends request" do
@@ -66,7 +37,7 @@ describe Resty::Commands::Request do
       let(:params) { { method: "head", path: "/api/merchants" } }
 
       before(:each) do
-        Resty::Commands::Request.new(cli_options, params).send_request
+        Resty::Request.new(cli_options, params).send_request
       end
 
       it "sends request" do
@@ -79,7 +50,7 @@ describe Resty::Commands::Request do
       let(:params) { { method: "options", path: "/api/merchants" } }
 
       before(:each) do
-        Resty::Commands::Request.new(cli_options, params).send_request
+        Resty::Request.new(cli_options, params).send_request
       end
 
       it "sends request" do
@@ -92,7 +63,7 @@ describe Resty::Commands::Request do
       let(:params) { { method: "put", path: "/api/merchants", data: "{foo: 'bar'}" } }
 
       before(:each) do
-        Resty::Commands::Request.new(cli_options, params).send_request
+        Resty::Request.new(cli_options, params).send_request
       end
 
       it "sends request" do
@@ -105,7 +76,7 @@ describe Resty::Commands::Request do
       let(:params) { { method: "post", path: "/api/merchants", data: "{foo: 'bar'}" } }
 
       before(:each) do
-        Resty::Commands::Request.new(cli_options, params).send_request
+        Resty::Request.new(cli_options, params).send_request
       end
 
       it "sends request" do
