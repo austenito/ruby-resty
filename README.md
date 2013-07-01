@@ -58,6 +58,7 @@ supported:
 GET     [path]
 PUT     [path] [data]
 POST    [path] [data]
+PATH    [path] [data]
 HEAD    [path]
 DELETE  [path]
 OPTIONS [path]
