@@ -1,4 +1,5 @@
-http://nyan.cat:
+nyan:
+  host: http://nyan.cat
   headers:
     header_name: header_value
     header_name2: header_value2
