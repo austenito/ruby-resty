@@ -35,7 +35,7 @@ describe "MethodCommand" do
     end
 
     context "invalid data" do
-      let(:request) { stub(path_valid?: :true, data_valid?: false) }
+      let(:request) { stub(path_valid?: :true, data_valid?: false, data_required?: true) }
 
       it "doesn't send request" do
         pry_eval("get")
@@ -45,7 +45,7 @@ describe "MethodCommand" do
     
     context "valid arguments" do
       let(:response) { stub }
-      let(:request) { stub(path_valid?: :true, data_valid?: true) }
+      let(:request) { stub(path_valid?: :true, data_valid?: true, data_required?: true) }
       let(:params) { { method: "get", path: "/api/nyan", data: "#{JSON.dump(foo: 'bar')}"} }
       let(:method_output) { stub(generate: "")}
 

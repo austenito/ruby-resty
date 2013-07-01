@@ -2,10 +2,11 @@ require 'spec_helper'
 
 describe Resty::Request do
   let(:cli_options) { stub(host: "foo.com", verbose?: false, headers: { header: "value" }) }
-    context "#send_request" do
-      before(:each) do
-        RestClient.stubs(:send)
-      end
+
+  context "#send_request" do
+    before(:each) do
+      RestClient.stubs(:send)
+    end
 
     context "GET" do
       let(:params) { { method: "get", path: "/api/merchants" } }

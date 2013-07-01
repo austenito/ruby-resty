@@ -3,19 +3,21 @@ require 'json'
 module Resty
   class Request
 
+    attr_accessor :data, :data_valid
     attr_reader :params, :printer, :cli_options
 
     def initialize(cli_options, params)
       @cli_options = cli_options
       @params = params
+      @data_valid = false
+      load_data
     end
 
     def send_request
-      case method
-      when %r{get|head|delete|options}
-        RestClient.send(method, url, cli_options.headers) { |*params| yield params }
-      else
+      if data_required?
         RestClient.send(method, url, data, cli_options.headers) { |*params| yield params }
+      else
+        RestClient.send(method, url, cli_options.headers) { |*params| yield params }
       end
     end
 
@@ -24,10 +26,11 @@ module Resty
     end
 
     def data_valid?
-      JSON.parse(params[:data])
-      true
-    rescue => e
-      false
+      data_valid
+    end
+
+    def data_required?
+      (method =~ %r{put|post|patch}) == 0
     end
 
     private
@@ -44,8 +47,11 @@ module Resty
       params[:path]
     end
 
-    def data
-      JSON.parse(params[:data]) || {} rescue {}
+    def load_data
+      self.data = JSON.parse(params[:data]) || {}
+      self.data_valid = true
+    rescue => e
+      self.data = {}
     end
   end
 end
