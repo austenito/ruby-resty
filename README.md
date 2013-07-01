@@ -42,6 +42,7 @@ The REPL accepts the following options that are attached to each request. This p
 requests without having to specify headers everytime.
 
 ```
+--alias, -a <s>:   The per-host entry to use in ~/.ruby_resty.yml
 --host, -h:    The hostname of the REST service. Ex: http://nyan.cat
 --headers, -H: The headers attached to each request. Ex: X-NYAN-CAT-SECRET-KEY=nyan_nyan
 --verbose, -v: Verbose mode
@@ -98,7 +99,7 @@ exit: Quits the REPL
 ## Per Host Configuration
 
 Including options from the command-line can get tedious, especially if you specify different options to different
-services. The `~/.ruby_resty.yml` config file allows per-host configuration.
+hosts. The `~/.ruby_resty.yml` config file allows per-host configuration.
 
 To get started, you can call a generator:
 
@@ -109,7 +110,8 @@ rake copy_config
 This will copy `~/.ruby_resty.yml` which allows you to specify options related to specific hosts.
 
 ```
-http://nyan.cat:
+nyan:
+  host: http://nyan.cat
   headers:
     header_name: header_value
     header_name2: header_value2
@@ -124,7 +126,7 @@ ruby-resty --host http://nyan.cat --headers header_name=header_value header_name
 You can omit the header information:
 
 ```
-ruby-resty --host http://nyan.cat --config
+ruby-resty --alias nyan
 ```
 
 # Contributing
