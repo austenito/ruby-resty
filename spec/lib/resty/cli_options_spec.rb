@@ -86,6 +86,7 @@ describe Resty::CliOptions do
 
     context "alias doesn't exist" do
       it "raises ConfigFileError" do
+        YAML.stubs(:load_file).returns({"ice_cream" => {} } )
         File.stubs(:exist?).returns(true)
         expect { Resty::CliOptions.new(alias: "nyan") }.to raise_error(Resty::ConfigFileError)
       end
