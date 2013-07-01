@@ -42,8 +42,8 @@ The REPL accepts the following options that are attached to each request. This p
 requests without having to specify headers everytime.
 
 ```
---alias, -a <s>:   The per-host entry to use in ~/.ruby_resty.yml
---host, -h:    The hostname of the REST service. Ex: http://nyan.cat
+--alias, -a  : The per-host entry to use in ~/.ruby_resty.yml
+--host, -h   : The hostname of the REST service. Ex: http://nyan.cat
 --headers, -H: The headers attached to each request. Ex: X-NYAN-CAT-SECRET-KEY=nyan_nyan
 --verbose, -v: Verbose mode
 --config, -c : Use host information from ~/.ruby_resty.yml
