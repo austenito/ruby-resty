@@ -14,9 +14,19 @@ module Resty
 
       Trollop::with_standard_exception_handling p do
         options = p.parse(ARGV)
-        raise Trollop::HelpNeeded if options.empty? || options[:host].nil?
+
+        if (options[:alias] && options[:host]) || (options[:alias].nil? && options[:host].nil?)
+          puts "Please specify an alias OR a host."
+          raise Trollop::HelpNeeded
+        elsif options.empty?
+          raise Trollop::HelpNeeded
+        end
+
         Resty::Repl.start(options)
       end
+
+    rescue ConfigFileError => e
+      puts e.message
     end
   end
 end

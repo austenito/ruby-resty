@@ -43,23 +43,25 @@ module Resty
     def load_config_file
       read_config_file.tap do |config|
         options[:host] = config[host_alias]["host"]
-        options[:headers] = config[host_alias]["headers"] || {}
+        options[:headers] = config[host_alias]["headers"]
       end
     end
 
     def read_config_file
       if File.exist?(CONFIG_FILE)
-        YAML.load_file(CONFIG_FILE).tap do |config|
-          if config[host_alias]
-            unless config[host_alias]["host"]
-              raise ConfigFileError, "Host missing from #{CONFIG_FILE}"
-            end
-          else
-            raise ConfigFileError, "Alias missing from #{CONFIG_FILE}: #{host_alias}"
-          end
-        end
-      else 
+        YAML.load_file(CONFIG_FILE).tap { |config| validate_config_entries(config) }
+      else
         raise ConfigFileError, "#{CONFIG_FILE} is missing."
+      end
+    end
+
+    def validate_config_entries(config)
+      if config[host_alias]
+        unless config[host_alias]["host"]
+          raise ConfigFileError, "Host missing from #{CONFIG_FILE}"
+        end
+      else
+        raise ConfigFileError, "Alias missing from #{CONFIG_FILE}: #{host_alias}"
       end
     end
 
