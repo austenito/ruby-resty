@@ -1,5 +1,15 @@
-Pry::Commands.create_command /(get|put|post|delete|head|option|patch|trace)/i do
-  description "Echo the input: echo [ARGS]"
+Pry::Commands.create_command /(get|put|post|delete|head|option|patch|trace)/i, listing: "method-command" do
+  description "Performs an HTTP request to the specified path: [HTTP METHOD] [PATH] [DATA]"
+
+  banner <<-BANNER
+  Performs an HTTP request to the specified path with optional data: [HTTP METHOD] [PATH] [DATA]
+
+  Examples: 
+  
+  GET /api/nyan
+  DELETE /api/nyan
+  POST /api/nyan {name: "j3"}
+  BANNER
 
   command_options(
     shellwords: false
