@@ -26,6 +26,7 @@ Pry::Commands.create_command /(get|put|post|delete|head|option|patch|trace)/i, l
       request.send_request do |response, request|
         method_output = Resty::Commands::MethodOutput.new(cli_options.verbose?, response, request)
         output.puts(method_output.generate)
+        eval_response(response)
       end
     end
   end
@@ -38,6 +39,12 @@ Pry::Commands.create_command /(get|put|post|delete|head|option|patch|trace)/i, l
 
   def data_invalid?
     data.nil? && Resty::Request.data_required?(http_method)
+  end
+
+  def eval_response(response)
+    target.eval("response = #{JSON.parse(response)}")
+  rescue
+    target.eval("response = nil")
   end
 
   def build_data
