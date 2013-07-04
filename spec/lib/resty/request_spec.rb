@@ -61,7 +61,7 @@ describe Resty::Request do
     end
 
     context "PUT" do
-      let(:params) { { method: "put", path: "/api/merchants", data: JSON.dump(foo: "bar") } }
+      let(:params) { { method: "put", path: "/api/merchants", data: {"foo" => "bar"} } }
 
       before(:each) do
         Resty::Request.new(cli_options, params).send_request
@@ -74,7 +74,7 @@ describe Resty::Request do
     end
 
     context "POST" do
-      let(:params) { { method: "post", path: "/api/merchants", data: JSON.dump(foo: "bar") } }
+      let(:params) { { method: "post", path: "/api/merchants", data: {"foo" => "bar"} } }
 
       before(:each) do
         Resty::Request.new(cli_options, params).send_request
