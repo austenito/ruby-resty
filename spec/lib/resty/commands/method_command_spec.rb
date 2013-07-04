@@ -82,9 +82,6 @@ describe "MethodCommand" do
 
         it "sends request" do
           Resty::Commands::MethodOutput.should have_received(:new).with(false, response,request)
-        end
-
-        it "generates output" do
           method_output.should have_received(:generate)
         end
       end
@@ -102,30 +99,43 @@ describe "MethodCommand" do
 
       it "sends request" do
         Resty::Commands::MethodOutput.should have_received(:new).with(false, response,request)
-      end
-
-      it "generates output" do
         method_output.should have_received(:generate)
       end
     end
 
     context "as variable" do
-      before(:each) do
-        Object.any_instance.stubs(:foo).returns(foo: "bar")
-        pry_eval("get /api/nyan foo")
+      context "with ruby hash" do
+        before(:each) do
+          Object.any_instance.stubs(:foo).returns(foo: "bar")
+          pry_eval("get /api/nyan foo")
+        end
+
+        it "creates request" do
+          params  = { method: "get", path: "/api/nyan", data: {foo: "bar"} }
+          Resty::Request.should have_received(:new).with(anything, params)
+        end
+
+        it "sends request" do
+          Resty::Commands::MethodOutput.should have_received(:new).with(false, response,request)
+          method_output.should have_received(:generate)
+        end
       end
 
-      it "creates request" do
-        params  = { method: "get", path: "/api/nyan", data: {foo: "bar"} }
-        Resty::Request.should have_received(:new).with(anything, params)
-      end
+      context "with json string" do
+        before(:each) do
+          Object.any_instance.stubs(:foo).returns('{"foo": "bar"}')
+          pry_eval("get /api/nyan foo")
+        end
 
-      it "sends request" do
-        Resty::Commands::MethodOutput.should have_received(:new).with(false, response,request)
-      end
+        it "creates request" do
+          params  = { method: "get", path: "/api/nyan", data: {"foo" => "bar"} }
+          Resty::Request.should have_received(:new).with(anything, params)
+        end
 
-      it "generates output" do
-        method_output.should have_received(:generate)
+        it "sends request" do
+          Resty::Commands::MethodOutput.should have_received(:new).with(false, response,request)
+          method_output.should have_received(:generate)
+        end
       end
     end
 
@@ -141,9 +151,6 @@ describe "MethodCommand" do
 
       it "sends request" do
         Resty::Commands::MethodOutput.should have_received(:new).with(false, response,request)
-      end
-
-      it "generates output" do
         method_output.should have_received(:generate)
       end
     end

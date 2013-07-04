@@ -38,7 +38,13 @@ Pry::Commands.create_command /(get|put|post|delete|head|option|patch|trace)/i do
   end
 
   def eval_ruby(input)
-    target.eval(input) rescue nil
+    parsed_input = target.eval(input)
+    if parsed_input.is_a?(String)
+      JSON.parse(parsed_input)
+    else
+      parsed_input
+    end
+  rescue
   end
 
   def parse_json(input)
