@@ -5,8 +5,8 @@
 Ruby-Resty is a ruby port of [Resty][1], which provides a simple way to interact with RESTful services. Ruby-Resty was
 ported to be shell agnostic and for easier community development.
 
-The resty REPL is built on top of [Pry][2] for built-in niceties like history, state management, shell interaction, 
-etc.
+The resty REPL is built on top of [Pry][2] for niceties like [Custom Commands][3], history management, interactive 
+help system, and most importantly, using plain old Ruby.
 
 # Installation
 
@@ -174,3 +174,4 @@ Don't forget to run the tests with `rake`
 
 [1]: https://github.com/micha/resty
 [2]: https://github.com/pry/pry
+[3]: https://github.com/pry/pry/wiki/Custom-commands
