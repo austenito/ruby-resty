@@ -18,6 +18,8 @@ module Resty
 
             output += build_line("Response Code: #{response.code}")
             response.headers.each { |key, value| output += build_line("#{key}: #{value}") }
+        else
+            output += build_line("Response Code: #{response.code}")
         end
 
         output += pretty_json(response)
