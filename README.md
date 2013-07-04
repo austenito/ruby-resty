@@ -80,7 +80,7 @@ resty> GET /api/cats/1
 Or you can send a `POST` request, which does require a body:
 
 ```
-resty> POST /api/cats '{"nyan_cat": {"name": "oliver", "color": "blue"} }'
+resty> POST /api/cats {"nyan_cat": {"name": "oliver", "color": "blue"} }
 { 
   "nyan_cat": { 
     "name": "oliver"
@@ -89,12 +89,44 @@ resty> POST /api/cats '{"nyan_cat": {"name": "oliver", "color": "blue"} }'
 }
 ```
 
-### REPL Commands
+Ruby hashes are also accepted:
+```
+resty> POST /api/cats {nyan_cat: {name: "oliver", color: "blue"} }
+```
 
-There are also REPL specific commands ruby-resty is aware of. For example, you can type `exit` to quit the REPL.
+As are ruby variables:
+```
+resty> data = {nyan_cat: {name: "oliver", color: "blue"} }
+resty> POST /api/cats data
+```
+
+#### Responses
+
+After a request is returned, the resulting JSON response is parsed into a ruby hash and stored in `response`:
 
 ```
-exit: Quits the REPL
+resty> POST /api/cats {nyan_cat: {name: "oliver", color: "blue"} }
+resty> response
+{ 
+  "nyan_cat" => { 
+    "name" => "oliver"
+    "color" => "blue"
+  }
+}
+```
+
+Since the response object is a ruby hash, the values can be changed and sent on another request:
+
+```
+resty> response
+{ 
+  "nyan_cat" => { 
+    "name" => "oliver"
+    "color" => "blue"
+  }
+}
+resty> response["nyan_cat"]["name"] = "grumpy"
+resty> PUT /api/cats response
 ```
 
 ## Per Host Configuration
