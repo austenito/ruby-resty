@@ -49,6 +49,7 @@ describe "MethodCommand" do
 
     context "request doesn't require data" do
       before(:each) do
+        Resty::Commands::MethodOutput.stubs(:new).returns(stub(:generate))
         Resty::Request.stubs(:new).returns(request)
         request.stubs(:send_request).yields(response, request)
         pry_eval("get /api/nyan")

@@ -6,9 +6,8 @@ describe Resty::Commands::MethodOutput do
   let(:response) { JSON.dump({foo: "bar"}) }
 
   context "#print" do
-    it "returns empty string with no json output" do
-      method_output = Resty::Commands::MethodOutput.new(false, "", request)
-      method_output.generate.should eq("")
+    before(:each) do
+      response.stubs(:code).returns(200)
     end
 
     context "non-verbose" do
@@ -16,6 +15,7 @@ describe Resty::Commands::MethodOutput do
 
       it "returns output" do
          output = <<-eos.unindent
+           > Response Code: 200
            {
              "foo": "bar"
            }
@@ -33,7 +33,6 @@ describe Resty::Commands::MethodOutput do
         request.stubs(:method).returns("get")
         request.stubs(:url).returns("foo.com")
         request.stubs(:processed_headers).returns(header: "value", header2: "value2")
-        response.stubs(:code).returns(200)
         response.stubs(:headers).returns(response_header: "value", response_header2: "value2")
       end
 
