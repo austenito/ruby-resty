@@ -1,14 +1,25 @@
 Pry::Commands.create_command /(get|put|post|delete|head|option|patch|trace)/i, listing: "method-command" do
-  description "Performs an HTTP request to the specified path: [HTTP METHOD] [PATH] [DATA]"
+  description "Performs an HTTP request to the specified path: METHOD PATH [DATA]"
 
   banner <<-BANNER
-  Performs an HTTP request to the specified path with optional data: [HTTP METHOD] [PATH] [DATA]
+  Performs an HTTP request to the specified path with optional data: METHOD PATH [DATA]
 
   Examples: 
-  
-  GET /api/nyan
+  --------- 
+  GET    /api/nyan
   DELETE /api/nyan
-  POST /api/nyan {name: "j3"}
+  PUT    /api/nyan {"name": "Jan"}
+  POST   /api/nyan {"name": "Jeff"}
+
+  Ruby hashes can also be used:
+  -----------------------------
+  PUT  /api/nyan {name: "Jan"}
+
+  And even ruby variables:
+  ------------------------
+  data = {name: "j3"}
+  PUT  /api/nyan data
+
   BANNER
 
   command_options(
@@ -17,9 +28,11 @@ Pry::Commands.create_command /(get|put|post|delete|head|option|patch|trace)/i, l
 
   def process
     if path_missing?
-      output.puts("A path must be included. Ex: http://nyan.cat/<path>")
+      output.puts("Missing path\n\n")
+      run("help method-command")
     elsif data_invalid?
-      output.puts("Invalid data. Check if you have valid JSON at: http://jsonlint.com/")
+      output.puts("Invalid data\n\n")
+      run("help method-command")
     else
       params = { method: http_method, path: path, data: data }
       request = Resty::Request.new(cli_options, params)
