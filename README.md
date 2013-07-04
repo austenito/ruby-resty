@@ -49,7 +49,7 @@ requests without having to specify headers everytime.
 --config, -c  : Use host information from ~/.ruby_resty.yml
 ```
 
-### Making Requests
+### Requests
 
 Requests can be sent to services by specifying a path and any associated JSON data. The following methods are 
 supported:
@@ -100,7 +100,7 @@ resty> data = {nyan_cat: {name: "oliver", color: "blue"} }
 resty> POST /api/cats data
 ```
 
-#### Responses
+### Responses
 
 After a request is returned, the resulting JSON response is parsed into a ruby hash and stored in `response`:
 
