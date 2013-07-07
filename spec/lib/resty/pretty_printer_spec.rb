@@ -1,17 +1,18 @@
 require 'spec_helper'
 require 'json'
 
-describe Resty::Commands::MethodOutput do
+describe Resty::PrettyPrinter do
   let(:request) { stub }
   let(:response) { JSON.dump({foo: "bar"}) }
 
-  context "#print" do
+  context "#generate" do
     before(:each) do
       response.stubs(:code).returns(200)
     end
 
     context "non-verbose" do
-      let(:method_output) { Resty::Commands::MethodOutput.new(false, response, request) }
+      let(:printer) { Resty::PrettyPrinter.new(cli_options: stub(verbose?: false),
+                                                     response: response, request: request) }
 
       it "returns output" do
          output = <<-eos.unindent
@@ -22,12 +23,13 @@ describe Resty::Commands::MethodOutput do
         eos
 
         # multi-line text adds an extra \n, so let's ignore it
-        method_output.generate.should eq(output[0..-2])
+        printer.generate.should eq(output[0..-2])
       end
     end
 
     context "verbose" do
-      let(:method_output) { Resty::Commands::MethodOutput.new(true, response, request) }
+      let(:printer) { Resty::PrettyPrinter.new(cli_options: stub(verbose?: true),
+                                                     response: response, request: request) }
       
       before(:each) do
         request.stubs(:method).returns("get")
@@ -51,7 +53,7 @@ describe Resty::Commands::MethodOutput do
         eos
 
         # multi-line text adds an extra \n, so let's ignore it
-        method_output.generate.should eq(output[0..-2])
+        printer.generate.should eq(output[0..-2])
       end
     end
   end

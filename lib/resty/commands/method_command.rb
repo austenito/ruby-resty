@@ -1,4 +1,6 @@
-Pry::Commands.create_command /(get|put|post|delete|head|option|patch|trace)/i, listing: "method-command" do
+Pry::Commands.create_command /(get|put|post|delete|head|option|patch|trace)/i, 
+  listing: "method-command", :keep_retval => true do
+
   description "Performs an HTTP request to the specified path: METHOD PATH [DATA]"
 
   banner <<-BANNER
@@ -26,22 +28,27 @@ Pry::Commands.create_command /(get|put|post|delete|head|option|patch|trace)/i, l
     shellwords: false
   )
 
+  def setup
+    @user_auth = nil
+  end
+
   def process
     if path_missing?
-      output.puts("Missing path\n\n")
-      run("help method-command")
+      "Missing path. Type 'method-command -h' for more info."
     elsif data_invalid?
-      output.puts("Invalid data\n\n")
-      run("help method-command")
+      "Invalid data. Type 'method-command -h' for more info."
     else
       params = { method: http_method, path: path, data: data }
       request = Resty::Request.new(cli_options, params)
-      request.send_request do |response, request|
-        method_output = Resty::Commands::MethodOutput.new(cli_options.verbose?, response, request)
-        output.puts(method_output.generate)
+      request.send_request(opts) do |response, request|
         eval_response(response)
+        return  { cli_options: cli_options, response: response, request: request }
       end
     end
+  end
+
+  def options(opt)
+    opt.on "u=", :basic_auth, "Basic authentication credentials"
   end
 
   private
