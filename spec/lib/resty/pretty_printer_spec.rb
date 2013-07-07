@@ -11,8 +11,8 @@ describe Resty::PrettyPrinter do
     end
 
     context "non-verbose" do
-      let(:printer) { Resty::PrettyPrinter.new(cli_options: stub(verbose?: false),
-                                                     response: response, request: request) }
+      let(:printer) { Resty::PrettyPrinter.new(stub(verbose?: false),
+                                                    response: response, request: request) }
 
       it "returns output" do
          output = <<-eos.unindent
@@ -28,8 +28,8 @@ describe Resty::PrettyPrinter do
     end
 
     context "verbose" do
-      let(:printer) { Resty::PrettyPrinter.new(cli_options: stub(verbose?: true),
-                                                     response: response, request: request) }
+      let(:printer) { Resty::PrettyPrinter.new(stub(verbose?: true),
+                                                    response: response, request: request) }
       
       before(:each) do
         request.stubs(:method).returns("get")

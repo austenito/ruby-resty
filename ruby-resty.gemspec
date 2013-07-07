@@ -16,10 +16,11 @@ Gem::Specification.new do |gem|
   gem.executables   << 'ruby-resty'
 
   gem.add_dependency 'active_support'
+  gem.add_dependency 'hashie'
+  gem.add_dependency 'multi_json'
   gem.add_dependency 'pry'
   gem.add_dependency 'rest-client', '1.6.7'
   gem.add_dependency 'trollop'
-  gem.add_dependency 'multi_json'
 
   gem.add_development_dependency 'bourne', "1.4.0"
   gem.add_development_dependency 'guard'

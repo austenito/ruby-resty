@@ -11,11 +11,7 @@ module Resty
     end
 
     def send_request(request_headers = {})
-      if Resty::Request.data_required?(method)
-        resource.send(method, data) { |*params| yield params }
-      else
-        resource.send(method) { |*params| yield params }
-      end
+      request.execute { |*params| yield params }
     end
 
     def self.data_required?(method)
@@ -24,12 +20,13 @@ module Resty
 
     private
 
-    def resource
-      return @resource if @resource
-      options = { headers: cli_options.headers }
+    def request
+      return @request if @request
+      options = { method: method, headers: cli_options.headers, url: url }
       options[:user] = cli_options.username if cli_options.username
       options[:password] = cli_options.password if cli_options.password
-      @resource ||= RestClient::Resource.new(url, options)
+      options[:payload] = data if Resty::Request.data_required?(method)
+      @request ||= RestClient::Request.new(options)
     end
 
     def url
