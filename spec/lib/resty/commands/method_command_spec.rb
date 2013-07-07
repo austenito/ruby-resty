@@ -17,13 +17,13 @@ describe "MethodCommand" do
     end
 
     it "responds lower case method" do
-      %w{get put post delete head option patch trace}.each do |method|
+      %w{get put post delete head options patch}.each do |method|
         pry_eval("#{method}").start_with?("Missing").should be_true
       end
     end
 
     it "responds to case-insentivity" do
-      %w{GET Put PoSt delete head option patch trace}.each do |method|
+      %w{GET Put PoSt delete head options patch}.each do |method|
         pry_eval("#{method}").start_with?("Missing").should be_true
       end
     end

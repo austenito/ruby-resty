@@ -1,4 +1,6 @@
-Pry::Commands.create_command /(get|put|post|delete|head|option|patch|trace)/i, 
+require 'hashie'
+
+Pry::Commands.create_command /(get|put|post|delete|head|options|patch)/i,
   listing: "method-command", :keep_retval => true do
 
   description "Performs an HTTP request to the specified path: METHOD PATH [DATA]"
@@ -42,7 +44,7 @@ Pry::Commands.create_command /(get|put|post|delete|head|option|patch|trace)/i,
       request = Resty::Request.new(cli_options, params)
       request.send_request(opts) do |response, request|
         eval_response(response)
-        return  { cli_options: cli_options, response: response, request: request }
+        return Hashie::Mash.new(response: response, request: request)
       end
     end
   end
