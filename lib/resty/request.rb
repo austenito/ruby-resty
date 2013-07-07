@@ -10,8 +10,7 @@ module Resty
       @params = params
     end
 
-    def send_request(request_options = {})
-      resource = RestClient::Resource.new(url, { headers: cli_options.headers })
+    def send_request(request_headers = {})
       if Resty::Request.data_required?(method)
         resource.send(method, data) { |*params| yield params }
       else
@@ -24,6 +23,14 @@ module Resty
     end
 
     private
+
+    def resource
+      return @resource if @resource
+      options = { headers: cli_options.headers }
+      options[:user] = cli_options.username if cli_options.username
+      options[:password] = cli_options.password if cli_options.password
+      @resource ||= RestClient::Resource.new(url, options)
+    end
 
     def url
       "#{cli_options.host}#{path}"
