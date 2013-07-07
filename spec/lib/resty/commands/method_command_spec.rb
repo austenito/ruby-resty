@@ -49,7 +49,6 @@ describe "MethodCommand" do
 
     context "request doesn't require data" do
       before(:each) do
-        Resty::Commands::MethodOutput.stubs(:new).returns(stub(:generate))
         Resty::Request.stubs(:new).returns(request)
         request.stubs(:send_request).yields(response, request)
         pry_eval("get /api/nyan")
@@ -66,7 +65,6 @@ describe "MethodCommand" do
     let(:method_output) { stub(generate: "")}
 
     before(:each) do
-      Resty::Commands::MethodOutput.stubs(:new).returns(method_output)
       request.stubs(:send_request).yields(response, request)
     end
 
@@ -82,8 +80,7 @@ describe "MethodCommand" do
         end
 
         it "sends request" do
-          Resty::Commands::MethodOutput.should have_received(:new).with(false, response,request)
-          method_output.should have_received(:generate)
+          request.should have_received(:send_request)
         end
       end
     end
@@ -99,8 +96,7 @@ describe "MethodCommand" do
       end
 
       it "sends request" do
-        Resty::Commands::MethodOutput.should have_received(:new).with(false, response,request)
-        method_output.should have_received(:generate)
+        request.should have_received(:send_request)
       end
     end
 
@@ -117,8 +113,7 @@ describe "MethodCommand" do
         end
 
         it "sends request" do
-          Resty::Commands::MethodOutput.should have_received(:new).with(false, response,request)
-          method_output.should have_received(:generate)
+          request.should have_received(:send_request)
         end
       end
 
@@ -134,8 +129,7 @@ describe "MethodCommand" do
         end
 
         it "sends request" do
-          Resty::Commands::MethodOutput.should have_received(:new).with(false, response,request)
-          method_output.should have_received(:generate)
+          request.should have_received(:send_request)
         end
       end
     end
@@ -151,8 +145,7 @@ describe "MethodCommand" do
       end
 
       it "sends request" do
-        Resty::Commands::MethodOutput.should have_received(:new).with(false, response,request)
-        method_output.should have_received(:generate)
+        request.should have_received(:send_request)
       end
     end
   end

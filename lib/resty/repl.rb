@@ -12,6 +12,9 @@ module Resty
 
       Pry.config.prompt = [ proc { "resty> " }, proc { "*>" }]
       Pry.config.history.file = "~/.ruby_resty_history"
+      Pry.config.print = proc do |output, value|
+        output.puts(Resty::PrettyPrinter.new(value).generate)
+      end
     end
 
     def self.start(resty_options)
