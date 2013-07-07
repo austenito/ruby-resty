@@ -32,6 +32,14 @@ module Resty
       options[:headers] || {}
     end
 
+    def username
+      options[:username]
+    end
+
+    def password
+      options[:password]
+    end
+
     private
 
     def parse_command_line_headers
@@ -44,6 +52,8 @@ module Resty
       read_config_file.tap do |config|
         options[:host] = config[host_alias]["host"]
         options[:headers] = config[host_alias]["headers"]
+        options[:username] = config[host_alias]["username"]
+        options[:password] = config[host_alias]["password"]
       end
     end
 
