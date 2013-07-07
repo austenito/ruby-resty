@@ -10,11 +10,12 @@ module Resty
       @params = params
     end
 
-    def send_request
+    def send_request(request_options = {})
+      resource = RestClient::Resource.new(url, { headers: cli_options.headers })
       if Resty::Request.data_required?(method)
-        RestClient.send(method, url, data, cli_options.headers) { |*params| yield params }
+        resource.send(method, data) { |*params| yield params }
       else
-        RestClient.send(method, url, cli_options.headers) { |*params| yield params }
+        resource.send(method) { |*params| yield params }
       end
     end
 
