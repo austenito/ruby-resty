@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe "method_command", :vcr do
-  let(:cli_options) { Resty::CliOptions.new(host: "localhost:4567", username: "nyan", 
+  let(:options) { Resty::Options.new(host: "localhost:4567", username: "nyan", 
                                             password: "cat") }
 
   context "GET" do
     before(:each) do
-      @result = pry_eval(cli_options, "get /api/nyan")
+      @result = pry_eval(options, "get /api/nyan")
     end
 
     it "returns 200" do
@@ -20,7 +20,7 @@ describe "method_command", :vcr do
 
   context "DELETE" do
     before(:each) do
-      @result = pry_eval(cli_options, "delete /api/nyan")
+      @result = pry_eval(options, "delete /api/nyan")
     end
 
     it "returns 200" do
@@ -30,7 +30,7 @@ describe "method_command", :vcr do
 
   context "HEAD" do
     before(:each) do
-      @result = pry_eval(cli_options, "head /api/nyan")
+      @result = pry_eval(options, "head /api/nyan")
     end
 
     it "returns 200" do
@@ -40,7 +40,7 @@ describe "method_command", :vcr do
 
   context "OPTIONS" do
     before(:each) do
-      @result = pry_eval(cli_options, "options /api/nyan")
+      @result = pry_eval(options, "options /api/nyan")
     end
 
     it "returns 200" do
@@ -50,7 +50,7 @@ describe "method_command", :vcr do
 
   context "POST" do
     before(:each) do
-      @result = pry_eval(cli_options, "post /api/nyan {nyan: 'cat'}")
+      @result = pry_eval(options, "post /api/nyan {nyan: 'cat'}")
     end
 
     it "returns 200" do
@@ -64,7 +64,7 @@ describe "method_command", :vcr do
 
   context "PUT" do
     before(:each) do
-      @result = pry_eval(cli_options, "put /api/nyan {nyan: 'cat'}")
+      @result = pry_eval(options, "put /api/nyan {nyan: 'cat'}")
     end
 
     it "returns 204" do
@@ -74,7 +74,7 @@ describe "method_command", :vcr do
 
   context "PATCH" do
     before(:each) do
-      @result = pry_eval(cli_options, "patch /api/nyan {nyan: 'cat'}")
+      @result = pry_eval(options, "patch /api/nyan {nyan: 'cat'}")
     end
 
     it "returns 204" do

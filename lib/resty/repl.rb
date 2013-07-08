@@ -5,22 +5,22 @@ module Resty
   class Repl
     include Readline
 
-    attr_accessor :cli_options, :interrupted
+    attr_accessor :options, :interrupted
 
     def initialize(resty_options)
-      @cli_options = Resty::CliOptions.new(resty_options)
+      @options = Resty::Options.new(resty_options)
 
       Pry.config.prompt = [ proc { "resty> " }, proc { "*>" }]
       Pry.config.history.file = "~/.ruby_resty_history"
       Pry.config.print = proc do |output, value|
-        output.puts(Resty::PrettyPrinter.new(cli_options, value).generate)
+        output.puts(Resty::PrettyPrinter.new(options, value).generate)
       end
     end
 
     def self.start(resty_options)
       new(resty_options).tap do |repl|
         Pry.config.input = repl
-        repl.cli_options.pry
+        repl.options.pry
       end
     end
 

@@ -1,10 +1,10 @@
 
 module Resty
   class PrettyPrinter
-    attr_accessor :cli_options, :params
+    attr_accessor :options, :params
 
-    def initialize(cli_options, params)
-      @cli_options = cli_options
+    def initialize(options, params)
+      @options = options
       @params = params
     end
 
@@ -45,7 +45,7 @@ module Resty
     private
 
     def verbose?
-      cli_options.verbose?
+      options.verbose?
     end
 
     def request

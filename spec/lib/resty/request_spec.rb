@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Resty::Request do
-  let(:cli_options) { Resty::CliOptions.new(host: "foo.com", headers: ["header=value"]) }
+  let(:options) { Resty::Options.new(host: "foo.com", headers: ["header:value"]) }
 
   context "#send_request" do
     let(:request) { stub(:execute) }
@@ -14,7 +14,7 @@ describe Resty::Request do
       let(:params) { { method: "get", path: "/api/merchants" } }
 
       before(:each) do
-        Resty::Request.new(cli_options, params).send_request
+        Resty::Request.new(options, params).send_request
       end
 
       it "creates request" do
@@ -32,7 +32,7 @@ describe Resty::Request do
       let(:params) { { method: "post", path: "/api/merchants", data: {"foo" => "bar"} } }
 
       before(:each) do
-        Resty::Request.new(cli_options, params).send_request
+        Resty::Request.new(options, params).send_request
       end
 
       it "creates resource" do
@@ -48,12 +48,12 @@ describe Resty::Request do
     end
 
     context "with basic authentication" do
-      let(:cli_options) { Resty::CliOptions.new(host: "foo.com", headers: ["header=value"],
+      let(:options) { Resty::Options.new(host: "foo.com", headers: ["header:value"],
                                                 username: "leeroy", password: "jenkins") }
       let(:params) { { method: "get", path: "/api/merchants" } }
 
       before(:each) do
-        Resty::Request.new(cli_options, params).send_request(foo: "bar")
+        Resty::Request.new(options, params).send_request(foo: "bar")
       end
 
       it "creates request" do
@@ -73,7 +73,7 @@ describe Resty::Request do
       #let(:params) { { method: "get", path: "/api/merchants" } }
 
       #before(:each) do
-        #Resty::Request.new(cli_options, params).send_request(foo: "bar")
+        #Resty::Request.new(options, params).send_request(foo: "bar")
       #end
 
       #it "creates request" do

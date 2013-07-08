@@ -3,10 +3,10 @@ require 'json'
 module Resty
   class Request
 
-    attr_reader :params, :cli_options
+    attr_reader :params, :options
 
-    def initialize(cli_options, params)
-      @cli_options = cli_options
+    def initialize(options, params)
+      @options = options
       @params = params
     end
 
@@ -22,15 +22,15 @@ module Resty
 
     def request
       return @request if @request
-      options = { method: method, headers: cli_options.headers, url: url }
-      options[:user] = cli_options.username if cli_options.username
-      options[:password] = cli_options.password if cli_options.password
-      options[:payload] = data if Resty::Request.data_required?(method)
-      @request ||= RestClient::Request.new(options)
+      request_options = { method: method, headers: options.headers, url: url }
+      request_options[:user] = options.username if options.username
+      request_options[:password] = options.password if options.password
+      request_options[:payload] = data if Resty::Request.data_required?(method)
+      @request ||= RestClient::Request.new(request_options)
     end
 
     def url
-      "#{cli_options.host}#{path}"
+      "#{options.host}#{path}"
     end
 
     def method
