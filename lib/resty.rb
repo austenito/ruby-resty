@@ -5,6 +5,7 @@ require 'multi_json'
 module Resty
 end
 
+require_relative "version"
 require_relative "resty/cli"
 require_relative "resty/cli_options"
 require_relative "resty/pretty_printer"
