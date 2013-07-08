@@ -22,3 +22,10 @@ task :copy_config do
     puts "Copied config file to #{config_file}"
   end
 end
+
+namespace :test do
+  desc "Starts the test server used for integration testing"
+  task :server do
+   `ruby ./spec/server.rb`
+  end
+end
