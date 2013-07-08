@@ -49,7 +49,7 @@ describe Resty::Request do
 
     context "with basic authentication" do
       let(:options) { Resty::Options.new(host: "foo.com", headers: ["header:value"],
-                                                username: "leeroy", password: "jenkins") }
+                                         username: "leeroy", password: "jenkins") }
       let(:params) { { method: "get", path: "/api/merchants" } }
 
       before(:each) do
@@ -69,21 +69,45 @@ describe Resty::Request do
       end
     end
 
-    #context "with request options" do
-      #let(:params) { { method: "get", path: "/api/merchants" } }
+    context "with request options" do
+      context "with global headers" do
+        let(:options) { Resty::Options.new(host: "foo.com", headers: ["header:value"]) }
+        let(:params) { { method: "get", path: "/api/merchants" } }
 
-      #before(:each) do
-        #Resty::Request.new(options, params).send_request(foo: "bar")
-      #end
+        before(:each) do
+          Resty::Request.new(options, params).send_request(headers: { name: "cat", age: 42})
+        end
 
-      #it "creates request" do
-        #RestClient::Request.should have_received(:new).with("foo.com/api/merchants",
-                                                             #headers: {header: "value"})
-      #end
+        it "creates request" do
+          RestClient::Request.should have_received(:new).with(url: "foo.com/api/merchants",
+                                                              method: "get",
+                                                              headers: { header: "value",
+                                                                         name: "cat", age: 42})
+        end
 
-      #it "sends request" do
-        #request.should have_received(:send).with("get")
-      #end
-    #end
+        it "sends request" do
+          request.should have_received(:execute)
+        end
+      end
+
+      context "without global headers" do
+        let(:options) { Resty::Options.new(host: "foo.com") }
+        let(:params) { { method: "get", path: "/api/merchants" } }
+
+        before(:each) do
+          Resty::Request.new(options, params).send_request(headers: { name: "cat", age: 42})
+        end
+
+        it "creates request" do
+          RestClient::Request.should have_received(:new).with(url: "foo.com/api/merchants",
+                                                              method: "get",
+                                                              headers: { name: "cat", age: 42 })
+        end
+
+        it "sends request" do
+          request.should have_received(:execute)
+        end
+      end
+    end
   end
 end

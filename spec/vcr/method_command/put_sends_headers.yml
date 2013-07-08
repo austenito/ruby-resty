@@ -1,0 +1,42 @@
+--- 
+http_interactions: 
+- request: 
+    method: put
+    uri: http://nyan:cat@localhost:4567/api/nyan
+    body: 
+      encoding: US-ASCII
+      string: nyan=cat
+    headers: 
+      Accept: 
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding: 
+      - gzip, deflate
+      Name: 
+      - nyaaa
+      Color: 
+      - green
+      Content-Length: 
+      - "8"
+      Content-Type: 
+      - application/x-www-form-urlencoded
+      User-Agent: 
+      - Ruby
+  response: 
+    status: 
+      code: 204
+      message: "No Content "
+    headers: 
+      X-Content-Type-Options: 
+      - nosniff
+      Server: 
+      - WEBrick/1.3.1 (Ruby/1.9.3/2012-04-20)
+      Date: 
+      - Mon, 08 Jul 2013 15:08:57 GMT
+      Connection: 
+      - close
+    body: 
+      encoding: US-ASCII
+      string: ""
+    http_version: 
+  recorded_at: Mon, 08 Jul 2013 15:08:57 GMT
+recorded_with: VCR 2.5.0

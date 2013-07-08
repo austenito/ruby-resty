@@ -3,15 +3,16 @@ require 'json'
 module Resty
   class Request
 
-    attr_reader :params, :options
+    attr_reader :params, :global_options
 
-    def initialize(options, params)
-      @options = options
+    def initialize(global_options, params)
+      @global_options = global_options
       @params = params
     end
 
-    def send_request(request_headers = {})
-      request.execute { |*params| yield params }
+    def send_request(options = {})
+      request_options[:headers].merge!(options[:headers]) if options[:headers]
+      RestClient::Request.new(request_options).execute { |*params| yield params }
     end
 
     def self.data_required?(method)
@@ -20,17 +21,19 @@ module Resty
 
     private
 
-    def request
-      return @request if @request
-      request_options = { method: method, headers: options.headers, url: url }
-      request_options[:user] = options.username if options.username
-      request_options[:password] = options.password if options.password
-      request_options[:payload] = data if Resty::Request.data_required?(method)
-      @request ||= RestClient::Request.new(request_options)
+    def request_options
+      @request_options ||= {}.tap do |options|
+        options[:method] = method
+        options[:headers] = global_options.headers
+        options[:url] = url
+        options[:user] = global_options.username if global_options.username
+        options[:password] = global_options.password if global_options.password
+        options[:payload] = data if Resty::Request.data_required?(method)
+      end
     end
 
     def url
-      "#{options.host}#{path}"
+      "#{global_options.host}#{path}"
     end
 
     def method

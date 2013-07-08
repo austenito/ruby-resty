@@ -1,26 +1,54 @@
 require 'spec_helper'
 
 describe "method_command", :vcr do
-  let(:options) { Resty::Options.new(host: "localhost:4567", username: "nyan", 
-                                            password: "cat") }
+  let(:options) { Resty::Options.new(host: "localhost:4567", username: "nyan", password: "cat",
+                                     headers: ["name:nyaaa", "color:green"]) }
 
   context "GET" do
-    before(:each) do
-      @result = pry_eval(options, "get /api/nyan")
+    context "with per request headers" do
+      before(:each) do
+        @result = pry_eval(options, "get /api/nyan -H age:42 -H address:space")
+      end
+
+      it "sends headers" do
+        @result.request.headers.should eq(name: "nyaaa", color: "green", age: "42", address: "space")
+      end
+
+      it "returns 200" do
+        @result.response.code.should eq(200)
+      end
+
+      it "returns response" do
+        JSON.parse(@result.response).should eq("nyan" => "cat")
+      end
     end
 
-    it "returns 200" do
-      @result.response.code.should eq(200)
-    end
+    context "without per request headers" do
+      before(:each) do
+        @result = pry_eval(options, "get /api/nyan")
+      end
 
-    it "returns response" do
-      JSON.parse(@result.response).should eq("nyan" => "cat")
+      it "sends headers" do
+        @result.request.headers.should eq(name: "nyaaa", color: "green")
+      end
+
+      it "returns 200" do
+        @result.response.code.should eq(200)
+      end
+
+      it "returns response" do
+        JSON.parse(@result.response).should eq("nyan" => "cat")
+      end
     end
   end
 
   context "DELETE" do
     before(:each) do
       @result = pry_eval(options, "delete /api/nyan")
+    end
+
+    it "sends headers" do
+      @result.request.headers.should eq(name: "nyaaa", color: "green")
     end
 
     it "returns 200" do
@@ -33,6 +61,10 @@ describe "method_command", :vcr do
       @result = pry_eval(options, "head /api/nyan")
     end
 
+    it "sends headers" do
+      @result.request.headers.should eq(name: "nyaaa", color: "green")
+    end
+
     it "returns 200" do
       @result.response.code.should eq(200)
     end
@@ -43,6 +75,10 @@ describe "method_command", :vcr do
       @result = pry_eval(options, "options /api/nyan")
     end
 
+    it "sends headers" do
+      @result.request.headers.should eq(name: "nyaaa", color: "green")
+    end
+
     it "returns 200" do
       @result.response.code.should eq(200)
     end
@@ -51,6 +87,10 @@ describe "method_command", :vcr do
   context "POST" do
     before(:each) do
       @result = pry_eval(options, "post /api/nyan {nyan: 'cat'}")
+    end
+
+    it "sends headers" do
+      @result.request.headers.should eq(name: "nyaaa", color: "green")
     end
 
     it "returns 200" do
@@ -67,6 +107,10 @@ describe "method_command", :vcr do
       @result = pry_eval(options, "put /api/nyan {nyan: 'cat'}")
     end
 
+    it "sends headers" do
+      @result.request.headers.should eq(name: "nyaaa", color: "green")
+    end
+
     it "returns 204" do
       @result.response.code.should eq(204)
     end
@@ -75,6 +119,10 @@ describe "method_command", :vcr do
   context "PATCH" do
     before(:each) do
       @result = pry_eval(options, "patch /api/nyan {nyan: 'cat'}")
+    end
+
+    it "sends headers" do
+      @result.request.headers.should eq(name: "nyaaa", color: "green")
     end
 
     it "returns 204" do

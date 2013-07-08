@@ -42,7 +42,7 @@ Pry::Commands.create_command /(get|put|post|delete|head|options|patch)/i,
     else
       params = { method: http_method, path: path, data: data }
       request = Resty::Request.new(global_options, params)
-      request.send_request(opts) do |response, request|
+      request.send_request({headers: request_headers}) do |response, request|
         eval_response(response)
         return Hashie::Mash.new(response: response, request: request)
       end
@@ -105,5 +105,9 @@ Pry::Commands.create_command /(get|put|post|delete|head|options|patch)/i,
 
   def data
     @data ||= build_data
+  end
+
+  def request_headers
+    opts[:headers] ? Resty::Options.parse_headers(opts[:headers]) : {}
   end
 end

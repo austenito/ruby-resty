@@ -10,7 +10,7 @@ module Resty
       @options = options
 
       if options[:headers]
-        options[:headers] = Options.parse_command_line_headers(options[:headers])
+        options[:headers] = Options.parse_headers(options[:headers])
       elsif host_alias
         load_config_file
       end
@@ -40,7 +40,7 @@ module Resty
       options[:password]
     end
 
-    def self.parse_command_line_headers(headers)
+    def self.parse_headers(headers)
       headers.inject({}) { |hash, header| hash.merge(build_pair(header)) }
     end
 
