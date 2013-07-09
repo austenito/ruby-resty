@@ -27,13 +27,18 @@ To get started, you can enter the REPL by providing the `host` option.
 
 ```
 ruby-resty --host http://nyan.cat
-resty>
 ```
 
 If you would like headers to be attached with every request, you can do so:
 
 ```
-ruby-resty --host http://nyan.cat --headers X-NYAN-CAT-SECRET-KEY=nyan_nyan X-NYAN-TYPE=octo
+ruby-resty --host http://nyan.cat --headers X-NYAN-CAT-SECRET-KEY:nyan_nyan X-NYAN-TYPE:octo
+```
+
+HTTP Basic Authentication can be attached to the hostname
+
+```
+ruby-resty --host http://nyan.cat --username Leeroy --password Jenkins
 ```
 
 ### Options
@@ -42,11 +47,14 @@ The REPL accepts the following options that are attached to each request. This p
 requests without having to specify headers everytime.
 
 ```
---alias, -a   : The per-host entry to use in ~/.ruby_resty.yml
---host, -h    : The hostname of the REST service. Ex: http://nyan.cat
---headers, -H : The headers attached to each request. Ex: X-NYAN-CAT-SECRET-KEY=nyan_nyan
---verbose, -v : Verbose mode
---config, -c  : Use host information from ~/.ruby_resty.yml
+--alias, -a    : The per-host entry to use in ~/.ruby_resty.yml
+--headers, -H  : The headers attached to each request. Ex: X-NYAN-CAT-SECRET-KEY:nyan_nyan
+--host, -h     : The hostname of the REST service. Ex: http://nyan.cat
+--username, -u : HTTP basic authentication username
+--password, -p : HTTP basic authentication password
+--verbose, -v  : Verbose mode
+--version, -e  : Print verison and exit
+--config, -c   : Use host information from ~/.ruby_resty.yml
 ```
 
 ### Requests
@@ -100,6 +108,14 @@ resty> data = {nyan_cat: {name: "oliver", color: "blue"} }
 resty> POST /api/cats data
 ```
 
+#### Per-request headers
+
+Headers sent with individual requests are supported:
+
+```
+resty> GET /api/cats/1 -H filter:tail-length -H filter:name
+```
+
 ### Responses
 
 After a request is returned, the resulting JSON response is parsed into a ruby hash and stored in `response`:
@@ -148,6 +164,8 @@ nyan:
   headers:
     header_name: header_value
     header_name2: header_value2
+  username: (optional)
+  password: (optional)
 ```
 
 Now instead of starting the REPL like:
