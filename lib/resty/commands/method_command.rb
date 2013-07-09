@@ -11,6 +11,7 @@ Pry::Commands.create_command /(get|put|post|delete|head|options|patch)/i,
   Examples: 
   --------- 
   GET    /api/nyan
+  GET    /api/nyan -H filter:color -H type:space
   DELETE /api/nyan
   PUT    /api/nyan {"name": "Jan"}
   POST   /api/nyan {"name": "Jeff"}

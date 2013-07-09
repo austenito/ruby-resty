@@ -11,10 +11,7 @@ class Pry
     end
 
     def help_text_for_commands(name, commands)
-      text = "  #{'help [command]'.ljust(18)} Prints detailed help for a command\n"
-      text += commands.map do |command|
-        "  #{command.options[:listing].to_s.ljust(18)} #{command.description}"
-      end.join("\n")
+      commands.first.banner
     end
   end
 end
