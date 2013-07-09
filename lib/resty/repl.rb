@@ -1,5 +1,4 @@
 require 'readline'
-require 'pry'
 
 module Resty
   class Repl
