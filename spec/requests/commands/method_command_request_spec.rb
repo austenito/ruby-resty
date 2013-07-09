@@ -40,6 +40,24 @@ describe "method_command", :vcr do
         JSON.parse(@result.response).should eq("nyan" => "cat")
       end
     end
+
+    context "non-json response" do
+      before(:each) do
+        @result = pry_eval(options, "get /api/nyan?format=xml")
+      end
+
+      it "sends headers" do
+        @result.request.headers.should eq(name: "nyaaa", color: "green")
+      end
+
+      it "returns 200" do
+        @result.response.code.should eq(200)
+      end
+
+      it "returns response" do
+        @result.response.should eq("<nyan>cat</nyan>")
+      end
+    end
   end
 
   context "DELETE" do

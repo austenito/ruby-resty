@@ -24,7 +24,7 @@ module Resty
           output += build_line("Response Code: #{response.code}")
         end
 
-        output += pretty_json(response)
+        output += pretty_print_response(response)
       end
     end
 
@@ -34,12 +34,12 @@ module Resty
       "> #{line}\n"
     end
 
-    def pretty_json(json)
-      return json if json == ""
-      parsed_json = JSON.parse(json)
-      MultiJson.dump(parsed_json, { pretty: true }) || ""
+    def pretty_print_response(response)
+      return response if response == ""
+      parsed_response = JSON.parse(response)
+      MultiJson.dump(parsed_response, { pretty: true }) || ""
     rescue => e
-      ""
+      response
     end
 
     private

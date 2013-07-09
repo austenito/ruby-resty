@@ -6,7 +6,11 @@ use Rack::Auth::Basic do |username, password|
 end
 
 get '/api/nyan' do
-  JSON.dump({ nyan: "cat" })
+  if params[:format] == "xml"
+    "<nyan>cat</nyan>"
+  else
+    JSON.dump({ nyan: "cat" })
+  end
 end
 
 delete '/api/nyan' do
