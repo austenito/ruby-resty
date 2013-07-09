@@ -1,7 +1,7 @@
 require 'yaml'
 
 module Resty
-  class CliOptions
+  class Options
     attr_reader :options
 
     CONFIG_FILE = "#{Dir.home}/.ruby_resty.yml"
@@ -10,7 +10,7 @@ module Resty
       @options = options
 
       if options[:headers]
-        parse_command_line_headers
+        options[:headers] = Options.parse_headers(options[:headers])
       elsif host_alias
         load_config_file
       end
@@ -40,13 +40,16 @@ module Resty
       options[:password]
     end
 
-    private
-
-    def parse_command_line_headers
-      options[:headers] = options[:headers].inject({}) do |hash, header|
-        hash.merge(build_pair(header))
-      end
+    def self.parse_headers(headers)
+      headers.inject({}) { |hash, header| hash.merge(build_pair(header)) }
     end
+
+    def self.build_pair(header)
+      pair = header.split(":")
+      { pair.first.to_sym => pair.last }
+    end
+
+    private
 
     def load_config_file
       read_config_file.tap do |config|
@@ -73,11 +76,6 @@ module Resty
       else
         raise ConfigFileError, "Alias missing from #{CONFIG_FILE}: #{host_alias}"
       end
-    end
-
-    def build_pair(header)
-      pair = header.split("=")
-      { pair.first.to_sym => pair.last }
     end
   end
 

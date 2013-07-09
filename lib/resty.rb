@@ -7,7 +7,7 @@ end
 
 require_relative "version"
 require_relative "resty/cli"
-require_relative "resty/cli_options"
+require_relative "resty/options"
 require_relative "resty/pretty_printer"
 require_relative "resty/repl"
 require_relative "resty/request"

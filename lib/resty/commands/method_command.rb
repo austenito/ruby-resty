@@ -41,8 +41,8 @@ Pry::Commands.create_command /(get|put|post|delete|head|options|patch)/i,
       "Invalid data. Type 'method-command -h' for more info."
     else
       params = { method: http_method, path: path, data: data }
-      request = Resty::Request.new(cli_options, params)
-      request.send_request(opts) do |response, request|
+      request = Resty::Request.new(global_options, params)
+      request.send_request({headers: request_headers}) do |response, request|
         eval_response(response)
         return Hashie::Mash.new(response: response, request: request)
       end
@@ -50,7 +50,8 @@ Pry::Commands.create_command /(get|put|post|delete|head|options|patch)/i,
   end
 
   def options(opt)
-    opt.on "u=", :basic_auth, "Basic authentication credentials"
+    opt.on "H=", :headers, "Headers sent per-request. Ex: -H header:value -H header:value",
+      as: Array
   end
 
   private
@@ -90,8 +91,8 @@ Pry::Commands.create_command /(get|put|post|delete|head|options|patch)/i,
     JSON.parse(input) rescue nil
   end
 
-  def cli_options
-    @cli_options ||= eval "self", target
+  def global_options
+    @global_options ||= eval "self", target
   end
 
   def http_method
@@ -104,5 +105,9 @@ Pry::Commands.create_command /(get|put|post|delete|head|options|patch)/i,
 
   def data
     @data ||= build_data
+  end
+
+  def request_headers
+    opts[:headers] ? Resty::Options.parse_headers(opts[:headers]) : {}
   end
 end

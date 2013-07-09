@@ -148,5 +148,20 @@ describe "MethodCommand" do
         request.should have_received(:send_request)
       end
     end
+
+    context "with request options" do
+      before(:each) do
+        pry_eval("get /api/nyan -H name:nyaa -H address:space")
+      end
+
+      it "creates request" do
+        params  = { method: "get", path: "/api/nyan", data: nil }
+        Resty::Request.should have_received(:new).with(anything, params)
+      end
+
+      it "sends request" do
+        request.should have_received(:send_request).with(headers: { name: "nyaa", address: "space" })
+      end
+    end
   end
 end

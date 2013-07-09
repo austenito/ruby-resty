@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Resty::CliOptions do
+describe Resty::Options do
   context "command line options" do
-    let(:options) { Resty::CliOptions.new(host: "foo.com", headers: ["key=star", "type=ninja"],
+    let(:options) { Resty::Options.new(host: "foo.com", headers: ["key:star", "type:ninja"],
                                           username: "leeroy", password: "jenkins", alias: "nyan") }
 
     it "returns host" do
@@ -26,7 +26,7 @@ describe Resty::CliOptions do
     end
 
     context "empty headers" do 
-      let(:options) { Resty::CliOptions.new({}) }
+      let(:options) { Resty::Options.new({}) }
 
       it "returns empty hash" do
         expect(options.headers).to eq({})
@@ -41,7 +41,7 @@ describe Resty::CliOptions do
                                                     "headers" => {"header" => "value"},
                                                     "password" => "jenkins"} } )
         File.stubs(:exist?).returns(true)
-        @options = Resty::CliOptions.new(alias: "nyan")
+        @options = Resty::Options.new(alias: "nyan")
       end
 
       it "returns host" do
@@ -69,7 +69,7 @@ describe Resty::CliOptions do
       before(:each) do
         YAML.stubs(:load_file).returns({"nyan" => { "host" => "nyan.cat" } } )
         File.stubs(:exist?).returns(true)
-        @options = Resty::CliOptions.new(alias: "nyan")
+        @options = Resty::Options.new(alias: "nyan")
       end
 
       it "returns host" do
@@ -88,7 +88,7 @@ describe Resty::CliOptions do
     context "config file doesn't exist" do
       it "raises ConfigFileError" do
         File.stubs(:exist?).returns(false)
-        expect { Resty::CliOptions.new(alias: "nyan") }.to raise_error(Resty::ConfigFileError)
+        expect { Resty::Options.new(alias: "nyan") }.to raise_error(Resty::ConfigFileError)
       end
     end
 
@@ -96,7 +96,7 @@ describe Resty::CliOptions do
       it "raises ConfigFileError" do
         YAML.stubs(:load_file).returns({"ice_cream" => {} } )
         File.stubs(:exist?).returns(true)
-        expect { Resty::CliOptions.new(alias: "nyan") }.to raise_error(Resty::ConfigFileError)
+        expect { Resty::Options.new(alias: "nyan") }.to raise_error(Resty::ConfigFileError)
       end
     end
 
@@ -104,7 +104,7 @@ describe Resty::CliOptions do
       it "raises error" do
         YAML.stubs(:load_file).returns({"nyan" => {}})
         File.stubs(:exist?).returns(true)
-        expect { Resty::CliOptions.new(alias: "nyan") }.to raise_error(Resty::ConfigFileError)
+        expect { Resty::Options.new(alias: "nyan") }.to raise_error(Resty::ConfigFileError)
       end
     end
   end
