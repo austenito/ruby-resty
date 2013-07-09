@@ -7,7 +7,7 @@ module Resty
       options = Trollop::options do
         version "Version: #{Resty::VERSION}\n"
         opt :alias, "The per-host entry to use in ~/.ruby_resty.yml", type: :string, short: "-a"
-        opt :headers, "The headers sent with each request. Ex: X-NYAN-CAT-SECRET-KEY=nyan_nyan",
+        opt :headers, "The headers sent with each request. Ex: X-NYAN-CAT-SECRET-KEY:nyan_nyan",
           type: :strings, short: "-H"
         opt :host, "The hostname of the REST service. Ex: http://nyan.cat", type: :string, short: "-h"
         opt :username, "HTTP basic authentication username", type: :string, short: "-u"
