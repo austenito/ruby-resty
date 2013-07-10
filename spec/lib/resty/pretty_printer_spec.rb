@@ -12,7 +12,7 @@ describe Resty::PrettyPrinter do
 
       context "non-verbose" do
         let(:printer) { Resty::PrettyPrinter.new(stub(verbose?: false),
-                                                 response: response, request: request) }
+                                                 Hashie::Mash.new(response: response, request: request)) }
 
         it "returns output" do
           output = <<-eos.unindent
@@ -29,7 +29,7 @@ describe Resty::PrettyPrinter do
 
       context "verbose" do
         let(:printer) { Resty::PrettyPrinter.new(stub(verbose?: true),
-                                                 response: response, request: request) }
+                                                 Hashie::Mash.new(response: response, request: request)) }
 
         before(:each) do
           request.stubs(:method).returns("get")
@@ -65,7 +65,7 @@ describe Resty::PrettyPrinter do
 
       context "non-verbose" do
         let(:printer) { Resty::PrettyPrinter.new(stub(verbose?: false),
-                                                 response: response, request: request) }
+                                                 Hashie::Mash.new(response: response, request: request)) }
 
         it "returns output" do
           output = <<-eos.unindent
@@ -80,7 +80,7 @@ describe Resty::PrettyPrinter do
 
       context "verbose" do
         let(:printer) { Resty::PrettyPrinter.new(stub(verbose?: true),
-                                                 response: response, request: request) }
+                                                 Hashie::Mash.new(response: response, request: request)) }
 
         before(:each) do
           request.stubs(:method).returns("get")
