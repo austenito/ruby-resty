@@ -9,9 +9,7 @@ module Resty
     end
 
     def generate 
-      if params.is_a?(String)
-        params
-      else
+      if params.is_a? Hashie::Mash
         output = ""
         if verbose?
           output += build_line("#{request.method.upcase} #{request.url}")
@@ -25,6 +23,8 @@ module Resty
         end
 
         output += pretty_print_response(response)
+      else
+        params
       end
     end
 
