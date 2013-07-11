@@ -14,6 +14,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   gem.require_paths = ['lib']
   gem.executables   << 'ruby-resty'
+  gem.license = 'MIT'
 
   gem.add_dependency 'active_support'
   gem.add_dependency 'hashie'

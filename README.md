@@ -190,6 +190,12 @@ ruby-resty --alias nyan
 
 Don't forget to run the tests with `rake`
 
+# License
+
+Ruby-Resty is released under the [MIT License][4]
+
 [1]: https://github.com/micha/resty
 [2]: https://github.com/pry/pry
 [3]: https://github.com/pry/pry/wiki/Custom-commands
+[4]: http://opensource.org/licenses/MIT
+
