@@ -192,6 +192,8 @@ Don't forget to run the tests with `rake`
 
 # License
 
+Copyright (c) 2013 Austen Ito
+
 Ruby-Resty is released under the [MIT License][4]
 
 [1]: https://github.com/micha/resty
