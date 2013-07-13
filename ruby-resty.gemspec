@@ -7,8 +7,8 @@ Gem::Specification.new do |gem|
   gem.version       = Resty::VERSION
   gem.authors       = ['Austen Ito']
   gem.email         = ['austen.dev@gmail.com']
-  gem.homepage      = ''
-  gem.summary       = ''
+  gem.homepage      = 'https://github.com/austenito/ruby-resty'
+  gem.summary       = 'A ruby port of the Resty CLI'
   gem.description   = gem.summary
   gem.files         = `git ls-files`.split("\n")
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
