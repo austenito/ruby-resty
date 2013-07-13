@@ -38,7 +38,7 @@ describe Resty::Request do
       it "creates resource" do
         RestClient::Request.should have_received(:new).with(url: "foo.com/api/merchants",
                                                             method: "post",
-                                                            payload: {"foo" => "bar"},
+                                                            payload: JSON.dump({"foo" => "bar"}),
                                                             headers: {header: "value"})
       end
 

@@ -28,7 +28,7 @@ module Resty
         options[:url] = url
         options[:user] = global_options.username if global_options.username
         options[:password] = global_options.password if global_options.password
-        options[:payload] = data if Resty::Request.data_required?(method)
+        options[:payload] = JSON.dump(data) if Resty::Request.data_required?(method)
       end
     end
 

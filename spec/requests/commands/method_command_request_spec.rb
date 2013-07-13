@@ -111,8 +111,8 @@ describe "method_command", :vcr do
       @result.request.headers.should eq(name: "nyaaa", color: "green")
     end
 
-    it "returns 200" do
-      @result.response.code.should eq(200)
+    it "returns 201" do
+      @result.response.code.should eq(201)
     end
 
     it "returns created object" do

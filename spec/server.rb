@@ -23,11 +23,13 @@ options '/api/nyan' do
 end
 
 put '/api/nyan' do
+  JSON.parse(request.body.read)
   [204]
 end
 
 post '/api/nyan' do
-  JSON.dump(params)
+  data = JSON.parse(request.body.read)
+  [201, JSON.dump(data)]
 end
 
 patch '/api/nyan' do
