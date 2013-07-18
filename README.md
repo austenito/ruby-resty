@@ -50,6 +50,7 @@ requests without having to specify headers everytime.
 --alias, -a    : The per-host entry to use in ~/.ruby_resty.yml
 --headers, -H  : The headers attached to each request. Ex: X-NYAN-CAT-SECRET-KEY:nyan_nyan
 --host, -h     : The hostname of the REST service. Ex: http://nyan.cat
+--list-aliases, -l:   List aliases in ~/.ruby_resty.yml
 --username, -u : HTTP basic authentication username
 --password, -p : HTTP basic authentication password
 --verbose, -v  : Verbose mode
