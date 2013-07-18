@@ -10,12 +10,15 @@ module Resty
         opt :headers, "The headers sent with each request. Ex: X-NYAN-CAT-SECRET-KEY:nyan_nyan",
           type: :strings, short: "-H"
         opt :host, "The hostname of the REST service. Ex: http://nyan.cat", type: :string, short: "-h"
+        opt :list_aliases, "List aliases in ~/.ruby_resty.yml", short: "-l"
         opt :username, "HTTP basic authentication username", type: :string, short: "-u"
         opt :password, "HTTP basic authentication password", type: :string, short: "-p"
         opt :verbose, "Verbose mode", short: "-v"
       end
 
-      if missing_host_or_alias?(options)
+      if options[:list_aliases]
+        system("cat ~/.ruby_resty.yml")
+      elsif missing_host_or_alias?(options)
         puts "Please specify an alias OR a host. Use --help for more info."
       elsif basic_auth_invalid?(options)
         puts "Please specify a username and password. Use --help for more info."
