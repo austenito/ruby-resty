@@ -68,7 +68,7 @@ Pry::Commands.create_command /(get|put|post|delete|head|options|patch)/i,
   def eval_response(response)
     target.eval("response = #{JSON.parse(response)}")
   rescue
-    target.eval("response = '#{response}'")
+    target.eval("response = %q(#{response})")
   end
 
   def build_data
