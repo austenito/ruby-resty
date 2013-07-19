@@ -55,7 +55,6 @@ requests without having to specify headers everytime.
 --password, -p : HTTP basic authentication password
 --verbose, -v  : Verbose mode
 --version, -e  : Print verison and exit
---config, -c   : Use host information from ~/.ruby_resty.yml
 ```
 
 ### Requests
