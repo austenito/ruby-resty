@@ -1,4 +1,3 @@
-require 'rails/railtie'
 require 'active_support'
 require 'multi_json'
 require 'pry'
