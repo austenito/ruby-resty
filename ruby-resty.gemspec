@@ -16,17 +16,17 @@ Gem::Specification.new do |gem|
   gem.executables   << 'ruby-resty'
   gem.license = 'MIT'
 
-  gem.add_dependency 'active_support'
+  gem.add_dependency 'activesupport', ">= 3.2.13"
   gem.add_dependency 'hashie'
   gem.add_dependency 'multi_json'
   gem.add_dependency 'pry'
   gem.add_dependency 'rest-client', '1.6.7'
   gem.add_dependency 'trollop'
 
-  gem.add_development_dependency 'bourne', "1.4.0"
+  gem.add_development_dependency 'bourne', "1.5.0"
   gem.add_development_dependency 'guard'
   gem.add_development_dependency 'guard-rspec'
-  gem.add_development_dependency 'mocha', "~> 0.13"
+  gem.add_development_dependency 'mocha', "~> 0.14.0"
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'rake'

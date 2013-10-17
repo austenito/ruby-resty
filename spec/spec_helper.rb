@@ -31,7 +31,7 @@ VCR.configure do |c|
     # Because psych is binary encoding response headers marked with ASCII-8BIT
     # https://groups.google.com/forum/?fromgroups#!topic/vcr-ruby/2sKrJa86ktU
     # And syck's output is much easier to read
-    :serialize_with             => :syck,
+    :serialize_with             => :psych,
   }
 
   # Pretty print your json so it's not all on one line
