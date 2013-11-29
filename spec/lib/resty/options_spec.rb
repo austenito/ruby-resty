@@ -32,6 +32,15 @@ describe Resty::Options do
         expect(options.headers).to eq({})
       end
     end
+
+    context "colon in header value" do
+      let(:options) { Resty::Options.new(host: "foo.com", headers: ["key:star:rainbow"],
+                                         username: "leeroy", password: "jenkins", alias: "nyan") }
+
+      it "returns headers" do
+        expect(options.headers).to eq(key: "star:rainbow")
+      end
+    end
   end
 
   context "config file" do

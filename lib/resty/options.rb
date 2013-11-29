@@ -45,8 +45,8 @@ module Resty
     end
 
     def self.build_pair(header)
-      pair = header.split(":")
-      { pair.first.to_sym => pair.last }
+      split_headers = header.split(":")
+      { split_headers.shift.to_sym => split_headers.join(":") }
     end
 
     private
