@@ -3,6 +3,7 @@ require 'readline'
 module Resty
   class Repl
     include Readline
+    include Pry::Helpers::BaseHelpers
 
     attr_accessor :options, :interrupted
 
@@ -12,7 +13,12 @@ module Resty
       Pry.config.prompt = [ proc { "resty> " }, proc { "*>" }]
       Pry.config.history.file = "~/.ruby_resty_history"
       Pry.config.print = proc do |output, value|
-        output.puts(Resty::PrettyPrinter.new(options, value).generate)
+        output = Resty::PrettyPrinter.new(options, value).generate
+        begin
+          output.is_a?(String) ? stagger_output(output) : stagger_output(output.pretty_inspect)
+        rescue Exception
+          output.puts(output)
+        end
       end
     end
 
