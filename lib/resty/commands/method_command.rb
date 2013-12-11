@@ -37,9 +37,9 @@ Pry::Commands.create_command /(get|put|post|delete|head|options|patch)/i,
 
   def process
     if path_missing?
-      "Missing path. Type 'method-command -h' for more info."
+      "Missing path. Type '#{http_method} -h' for more info, or 'help'."
     elsif data_invalid?
-      "Invalid data. Type 'method-command -h' for more info."
+      "Invalid data. Type '#{http_method} -h' for more info, or 'help'."
     else
       params = { method: http_method, path: path, data: data }
       request = Resty::Request.new(global_options, params)
